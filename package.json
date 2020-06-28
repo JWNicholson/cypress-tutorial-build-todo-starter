@@ -1,5 +1,5 @@
 {
-  "name": "cypress-tutorial-build-todo-starter",
+  "name": "cypress-todo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "json-server db.json",
-    "dev": "concurrently \"npm run watch\" \"npm run serve\""
+    "dev": "concurrently \"npm run watch\" \"npm run serve\"",
+    "cypress":"cypress open"
   },
   "keywords": [],
   "author": "",
