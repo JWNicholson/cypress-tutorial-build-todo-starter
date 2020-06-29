@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
 import Footer from './Footer'
+import { saveTodo } from '../lib/service'
 
 
 export default class TodoApp extends Component {
@@ -14,10 +15,22 @@ export default class TodoApp extends Component {
       todos: []
     }
     this.handleNewTodoChange = this.handleNewTodoChange.bind(this)
+    this.handleTodoSubmit = this.handleTodoSubmit.bind(this)
   }
 
 handleNewTodoChange (e) {
   this.setState({currentTodo: e.target.value})
+}
+
+handleTodoSubmit (e) {
+  e.preventDefault()
+  const newTodo = {name: this.state.currentTodo, isComplete: false}
+  saveTodo(newTodo)
+    .then(({data}) => this.setState({
+      todos: this.state.todos.concat(data),
+      currentTodo: ''
+    }))
+    .catch(() => this.setState({error: true}))
 }
 
   render () {
@@ -26,8 +39,10 @@ handleNewTodoChange (e) {
         <div>
           <header className="header">
             <h1>todos</h1>
+            {this.state.error ? <span className='error'>BuFu</span>: null}
             <TodoForm 
             currentTodo={this.state.currentTodo}
+            handleTodoSubmit={this.handleTodoSubmit}
             handleNewTodoChange={this.handleNewTodoChange} />
           </header>
           <section className="main">
