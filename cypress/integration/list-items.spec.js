@@ -12,9 +12,34 @@ describe('List-items', () => {
           .should('be.checked')
     })
 
-    it.only('shows remaining todos in the footer', () => {
+    it('shows remaining todos in the footer', () => {
         cy.get('.todo-count')
         .should('contain', 3)
+    })
+
+    it.only('Removes a todo', () => {
+          //delete the first todos
+        cy.route({
+            url: '/api/todos/1',
+            method: 'DELETE',
+            status: 200,
+            response: {}
+        })
+
+        cy.get('.todo-list li')
+          .as('list')
+
+        cy.get('@list')
+          .first()
+          .find('.destroy')//delete button class
+          .invoke('show')//show the button
+          .click()
+
+          //check to see if firs item was actually deleted in test
+          cy.get('@list')
+            .should('have.length', 3)
+            .and('not.contain', 'Milk')
+
     })
 
 })//describe
