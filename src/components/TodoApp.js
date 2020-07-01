@@ -40,12 +40,13 @@ export default class TodoApp extends Component {
   }
 
   render () {
+    const remaining = this.state.todos.filter(t => !t.isComplete).length
     return (
       <Router>
         <div>
           <header className="header">
             <h1>todos</h1>
-            {this.state.error ? <span className='error'>Oh no!</span> : null}
+            {this.state.error ? <span className='error'>BuFu!</span> : null}
             <TodoForm
               currentTodo={this.state.currentTodo}
               handleTodoSubmit={this.handleTodoSubmit}
@@ -54,7 +55,7 @@ export default class TodoApp extends Component {
           <section className="main">
             <TodoList todos={this.state.todos} />
           </section>
-          <Footer />
+          <Footer remaining={remaining}/>
         </div>
       </Router>
     )
